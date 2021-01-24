@@ -22,11 +22,10 @@ class Auth{
 
   }
 
-  Future<User> handleSignUp(email, password) async {
+  Future<User> handleSignUp(String email, String password) async {
 
     UserCredential result = await auth.createUserWithEmailAndPassword(email: email, password: password);
     final User user = result.user;
-    user.sendEmailVerification();
 
     assert (user != null);
     assert (await user.getIdToken() != null);

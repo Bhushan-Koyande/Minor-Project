@@ -20,6 +20,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
 
   bool isLoggedIn = false;
+  User firebaseUser;
 
   @override
   void initState() {
@@ -28,6 +29,7 @@ class _MyAppState extends State<MyApp> {
     FirebaseAuth firebaseAuth = FirebaseAuth.instance;
     if(firebaseAuth.currentUser != null){
       isLoggedIn = true;
+      firebaseUser = firebaseAuth.currentUser;
     }
   }
 
@@ -38,8 +40,9 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        fontFamily: 'jost',
       ),
-      home: isLoggedIn ? HomePage() : LoginPage(),
+      home: isLoggedIn ? HomePage(user: firebaseUser,) : LoginPage(),
     );
   }
 }

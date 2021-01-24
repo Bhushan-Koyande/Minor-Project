@@ -5,12 +5,12 @@ import 'package:minor_project/pages/login.dart';
 import 'package:minor_project/widgets/signup.dart';
 import 'package:minor_project/widgets/textNew.dart';
 
-class Register extends StatefulWidget {
+class RegisterPage extends StatefulWidget {
   @override
-  _RegisterState createState() => _RegisterState();
+  _RegisterPageState createState() => _RegisterPageState();
 }
 
-class _RegisterState extends State<Register> {
+class _RegisterPageState extends State<RegisterPage> {
 
   String radioItem = '';
   String name = '';
@@ -58,7 +58,8 @@ class _RegisterState extends State<Register> {
                           decoration: InputDecoration(
                         border: InputBorder.none,
                         fillColor: Colors.lightBlueAccent,
-                        labelText: 'Full Name',
+                        labelText: 'Name',
+                        helperText: 'Enter full name',
                         labelStyle: TextStyle(
                         color: Colors.white70,
                             ),
@@ -82,6 +83,7 @@ class _RegisterState extends State<Register> {
                             border: InputBorder.none,
                             fillColor: Colors.lightBlueAccent,
                             labelText: 'Email',
+                            helperText: 'Enter valid email',
                             labelStyle: TextStyle(
                               color: Colors.white70,
                             ),
@@ -116,7 +118,7 @@ class _RegisterState extends State<Register> {
                             },
                           ),
 
-                          Text('$radioItem', style: TextStyle(fontSize: 23),)
+                          Text('$radioItem', style: TextStyle(fontSize: 23, color: Colors.white70),)
 
                         ],
                       ),
@@ -137,7 +139,8 @@ class _RegisterState extends State<Register> {
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             fillColor: Colors.lightBlueAccent,
-                            labelText: 'Complete Address',
+                            labelText: 'Address',
+                            helperText: 'Enter complete address',
                             labelStyle: TextStyle(
                               color: Colors.white70,
                             ),
@@ -161,6 +164,7 @@ class _RegisterState extends State<Register> {
                             border: InputBorder.none,
                             fillColor: Colors.lightBlueAccent,
                             labelText: 'Profession',
+                            helperText: 'Enter correct info',
                             labelStyle: TextStyle(
                               color: Colors.white70,
                             ),
@@ -184,6 +188,7 @@ class _RegisterState extends State<Register> {
                             border: InputBorder.none,
                             fillColor: Colors.lightBlueAccent,
                             labelText: 'Age',
+                            helperText: 'Enter correct age',
                             labelStyle: TextStyle(
                               color: Colors.white70,
                             ),
@@ -207,6 +212,7 @@ class _RegisterState extends State<Register> {
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             labelText: 'Password',
+                            helperText: 'Minimum 6 characters',
                             labelStyle: TextStyle(
                               color: Colors.white70,
                             ),
@@ -248,6 +254,8 @@ class _RegisterState extends State<Register> {
                                   'Email' : email,
                                 });
                                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
+                              }else{
+                                Scaffold.of(context).showSnackBar(SnackBar(content: Text('Error !!! try again')));
                               }
                             }
                           },

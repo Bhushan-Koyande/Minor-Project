@@ -1,22 +1,21 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:minor_project/auth.dart';
-import 'package:minor_project/pages/home.dart';
-import 'package:minor_project/pages/labLogin.dart';
-import 'package:minor_project/pages/register.dart';
+import 'package:minor_project/pages/labHome.dart';
+import 'package:minor_project/pages/login.dart';
+import 'package:minor_project/widgets/textLab.dart';
 import 'package:minor_project/widgets/textLogin.dart';
 import 'package:minor_project/widgets/verticalText.dart';
 
-class LoginPage extends StatefulWidget {
+class LabLoginPage extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _LabLoginPageState createState() => _LabLoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LabLoginPageState extends State<LabLoginPage> {
 
-  String email = '';
-  String password = '';
+  String labId = '';
 
-  var authHandler = Auth();
+  FirebaseFirestore instance = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
               children: <Widget>[
                 Row(children: <Widget>[
                   VerticalText(),
-                  TextLogin(),
+                  TextLab(),
                 ]),
                 Padding(
                   padding: const EdgeInsets.only(top: 50, left: 50, right: 50),
@@ -46,35 +45,12 @@ class _LoginPageState extends State<LoginPage> {
                         color: Colors.white,
                       ),
                       onChanged: (String val){
-                        email = val;
+                        labId = val;
                       },
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         fillColor: Colors.lightBlueAccent,
-                        labelText: 'Email',
-                        labelStyle: TextStyle(
-                          color: Colors.white70,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20, left: 50, right: 50),
-                  child: Container(
-                    height: 60,
-                    width: MediaQuery.of(context).size.width,
-                    child: TextField(
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                      obscureText: true,
-                      onChanged: (String val){
-                        password = val;
-                      },
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        labelText: 'Password',
+                        labelText: 'Enter Lab ID',
                         labelStyle: TextStyle(
                           color: Colors.white70,
                         ),
@@ -104,16 +80,18 @@ class _LoginPageState extends State<LoginPage> {
                       borderRadius: BorderRadius.circular(30),
                     ),
                     child: FlatButton(
-                      onPressed: () async {
-                        if((email != '') && (password != '')) {
-                          var firebaseUser = await authHandler.handleSignInEmail(email, password);
-                          if(firebaseUser != null){
-                            Navigator.pushReplacement(context, MaterialPageRoute(
-                                builder: (context) => HomePage(user: firebaseUser,)
-                            ));
-                          }else{
+                      onPressed: () {
+                        if(labId != ''){
+                          instance.collection('LABS').doc(labId).get().then((doc) {
+                            if(doc.exists){
+                              Navigator.pushReplacement(context, MaterialPageRoute(
+                                  builder: (context) => LabHomePage(id: labId, name: doc.get('NAME'),)
+                              ));
+                            }
+                          }).catchError((e){
+                            print(e);
                             Scaffold.of(context).showSnackBar(SnackBar(content: Text('Error !!! try again')));
-                          }
+                          });
                         }
                       },
                       child: Row(
@@ -145,7 +123,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: Row(
                       children: <Widget>[
                         Text(
-                          'New Here ?',
+                          'Not a Lab ?',
                           style: TextStyle(
                             fontSize: 12,
                             color: Colors.white70,
@@ -155,44 +133,10 @@ class _LoginPageState extends State<LoginPage> {
                           padding: EdgeInsets.all(0),
                           onPressed: () {
                             Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => RegisterPage()));
+                                MaterialPageRoute(builder: (context) => LoginPage()));
                           },
                           child: Text(
-                            'Sign Up',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.white,
-                            ),
-                            textAlign: TextAlign.right,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 30, left: 30),
-                  child: Container(
-                    alignment: Alignment.topRight,
-                    //color: Colors.red,
-                    height: 20,
-                    child: Row(
-                      children: <Widget>[
-                        Text(
-                          'Lab Signin',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.white70,
-                          ),
-                        ),
-                        FlatButton(
-                          padding: EdgeInsets.all(0),
-                          onPressed: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => LabLoginPage()));
-                          },
-                          child: Text(
-                            'Sign In',
+                            'User Login',
                             style: TextStyle(
                               fontSize: 12,
                               color: Colors.white,
@@ -205,7 +149,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ],
-            ),
+            )
           ],
         ),
       ),

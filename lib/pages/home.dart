@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,6 +8,10 @@ import 'package:minor_project/pages/login.dart';
 import 'package:minor_project/widgets/labCard.dart';
 
 class HomePage extends StatefulWidget {
+
+  final User user;
+  HomePage({this.user});
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -35,9 +40,17 @@ class _HomePageState extends State<HomePage> {
   }
   
   void getLabsData(double lat, double long) async {
-    QuerySnapshot snapshot = await firestoreInstance.collection('LABS').where('LAT', isGreaterThanOrEqualTo: lat)
-        .limit(2).get();
-    List<LabCard> l = snapshot.docs.map((doc) => LabCard(lab: Lab.fromDocument(doc))).toList();
+    QuerySnapshot snapshot = await firestoreInstance.collection('LABS').get();
+    List<Lab> labs = snapshot.docs.map((doc) => Lab.fromDocument(doc)).toList();
+    print(labs.length);
+    List<Lab> output = new List();
+    for(int i = 0; i < labs.length; i++){
+      if(((labs[i].latitude - lat).abs() <= 0.05) && ((labs[i].longitude - long).abs() <= 0.05)){
+        output.add(labs[i]);
+      }
+    }
+    print(output.length);
+    List<LabCard> l = output.map((val) => LabCard(lab: val, userEmail: widget.user.email,)).toList();
     setState(() {
       labList = l;
     });
@@ -48,17 +61,45 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Minor Project'),
+        title: Text('COVID-19 Tests'),
+        centerTitle: true,
+      ),
+      drawer: Drawer(
+        child: Column(
+          children: [
+            UserAccountsDrawerHeader(
+                accountEmail: Text(widget.user.email, style: TextStyle(color: Colors.white70, fontWeight: FontWeight.bold),),
+                currentAccountPicture: Icon(Icons.account_circle_sharp, size: 80.0, color: Colors.white70,),
+            ),
+            InkWell(
+              child: ListTile(
+                leading: Icon(Icons.location_on_rounded),
+                title: Text('Containment Zones'),
+              ),
+              onTap: (){  },
+            ),
+            InkWell(
+              child: ListTile(
+                leading: Icon(Icons.list_sharp),
+                title: Text('Statistics'),
+              ),
+              onTap: (){  },
+            ),
+            InkWell(
+              child: ListTile(
+                leading: Icon(Icons.logout),
+                title: Text('Sign Out'),
+              ),
+              onTap: (){
+                authHandler.handleSignOut();
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
+              },
+            ),
+          ],
+        ),
       ),
       body: ListView(
         children: labList,
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          authHandler.handleSignOut();
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
-        },
-        child: Icon(Icons.logout),
       ),
     );
   }
