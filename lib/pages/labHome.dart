@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:minor_project/models/appointment.dart';
+import 'package:minor_project/pages/appointmentDetail.dart';
 import 'package:minor_project/pages/labCharge.dart';
 import 'package:minor_project/pages/labLogin.dart';
+import 'package:minor_project/pages/labTest.dart';
 
 class LabHomePage extends StatefulWidget {
 
@@ -19,6 +21,7 @@ class LabHomePage extends StatefulWidget {
 class _LabHomePageState extends State<LabHomePage> {
 
   FirebaseFirestore firestoreInstance = FirebaseFirestore.instance;
+  List<ListTile> appointmentList = new List();
 
   @override
   void initState() {
@@ -28,16 +31,33 @@ class _LabHomePageState extends State<LabHomePage> {
   }
 
   void getAppointments() async {
-    QuerySnapshot querySnapshot = await firestoreInstance.collection('APPOINTMENTS').where('NAME', isEqualTo: widget.name).get();
+    QuerySnapshot querySnapshot = await firestoreInstance.collection('APPOINTMENTS').where('lab name', isEqualTo: widget.name).get();
+    print(querySnapshot.toString());
     List<Appointment> appointments = querySnapshot.docs.map((doc) => Appointment.fromDocument(doc)).toList();
+    appointments.removeWhere((element) => element.status == 'allotted');
     appointments.sort((a, b)=> a.priority.compareTo(b.priority));
+    List<ListTile> l = appointments.map(
+            (e) => ListTile(
+              title: Text(e.patientName),
+              subtitle: Text('PRIORITY : ${e.priority}'),
+              onTap: () async {
+                await Navigator.push(context, MaterialPageRoute(
+                    builder: (context) => AppointmentDetailPage(title: 'Test Appointment', labId: widget.id, a: e,)
+                ));
+                getAppointments();
+              },
+            )
+    ).toList();
+    setState(() {
+      appointmentList = l;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Appointments'),
+        title: Text('Test Appointments'),
       ),
       drawer: Drawer(
         child: Column(
@@ -58,6 +78,15 @@ class _LabHomePageState extends State<LabHomePage> {
             ),
             InkWell(
               child: ListTile(
+                leading: Icon(Icons.done_all),
+                title: Text('Tests'),
+              ),
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => LabTestsPage(id: widget.id,)));
+              },
+            ),
+            InkWell(
+              child: ListTile(
                 leading: Icon(Icons.logout),
                 title: Text('Sign Out'),
               ),
@@ -69,8 +98,11 @@ class _LabHomePageState extends State<LabHomePage> {
         ),
       ),
       body: Container(
-        child: Center(
-          child: Text('No Appointments'),
+        child: appointmentList != null ? ListView(
+          children: appointmentList,
+        ) :
+        Center(
+          child: Text('No appointments'),
         ),
       ),
     );

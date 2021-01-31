@@ -56,10 +56,10 @@ class _RegisterPageState extends State<RegisterPage> {
                             name = val;
                           },
                           decoration: InputDecoration(
-                        border: InputBorder.none,
+                            border: InputBorder.none,
                         fillColor: Colors.lightBlueAccent,
                         labelText: 'Name',
-                        helperText: 'Enter full name',
+                        hintText: 'Enter full name',
                         labelStyle: TextStyle(
                         color: Colors.white70,
                             ),
@@ -83,7 +83,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             border: InputBorder.none,
                             fillColor: Colors.lightBlueAccent,
                             labelText: 'Email',
-                            helperText: 'Enter valid email',
+                            hintText: 'Enter valid email',
                             labelStyle: TextStyle(
                               color: Colors.white70,
                             ),
@@ -140,7 +140,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             border: InputBorder.none,
                             fillColor: Colors.lightBlueAccent,
                             labelText: 'Address',
-                            helperText: 'Enter complete address',
+                            hintText: 'Enter complete address',
                             labelStyle: TextStyle(
                               color: Colors.white70,
                             ),
@@ -164,7 +164,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             border: InputBorder.none,
                             fillColor: Colors.lightBlueAccent,
                             labelText: 'Profession',
-                            helperText: 'Enter correct info',
+                            hintText: 'Enter correct info',
                             labelStyle: TextStyle(
                               color: Colors.white70,
                             ),
@@ -188,7 +188,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             border: InputBorder.none,
                             fillColor: Colors.lightBlueAccent,
                             labelText: 'Age',
-                            helperText: 'Enter correct age',
+                            hintText: 'Enter correct age',
                             labelStyle: TextStyle(
                               color: Colors.white70,
                             ),
@@ -210,9 +210,9 @@ class _RegisterPageState extends State<RegisterPage> {
                           },
                           obscureText: true,
                           decoration: InputDecoration(
+                            hintText: 'Minimum 6 characters',
                             border: InputBorder.none,
                             labelText: 'Password',
-                            helperText: 'Minimum 6 characters',
                             labelStyle: TextStyle(
                               color: Colors.white70,
                             ),

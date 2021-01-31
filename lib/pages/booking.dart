@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 class BookingPage extends StatefulWidget {
 
-  final labName;
-  final patientEmail;
+  final String labName;
+  final String patientEmail;
 
   BookingPage({this.labName, this.patientEmail});
 
@@ -21,8 +21,28 @@ class _BookingPageState extends State<BookingPage> {
   String comorbidityDetails = '';
 
   FirebaseFirestore instance = FirebaseFirestore.instance;
+  var userData;
 
-  void bookAppointment() async {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    instance.collection('USERS').where("Email", isEqualTo: widget.patientEmail).get()
+        .then((value) {
+      if(value.docs.length != 0){
+        print(value.docs[0]);
+        setState(() {
+          userData = value.docs[0];
+        });
+      }else{
+        print('An error !');
+      }
+    }).catchError((e) {
+      print(e);
+    });
+  }
+
+  void bookAppointment() {
     if((professionDetail != '') && (ageDetail != '') && (isComorbid != '') && (comorbidityDetails != '')){
       if(professionDetail == 'doctor'){
         priority = 1;
@@ -43,14 +63,7 @@ class _BookingPageState extends State<BookingPage> {
           }
         }
       }
-      var userData;
-      instance.collection('USERS').where('Email', isEqualTo: widget.patientEmail).get()
-          .then((value) {
-        userData = value.docs.first.data();
-      }).catchError((e){
-        print(e);
-      });
-      await instance.collection('APPOINTMENTS')
+      instance.collection('APPOINTMENTS')
           .add({
         'patient name': userData['Name'],
         'priority': priority,
@@ -58,7 +71,15 @@ class _BookingPageState extends State<BookingPage> {
         'age detail': ageDetail,
         'comorbid': isComorbid,
         'comorbidity detail': comorbidityDetails,
-        'lab name': widget.labName
+        'lab name': widget.labName,
+        'status': 'pending'
+      }).then((value){
+        if(value.id != null){
+          Scaffold.of(context).showSnackBar(SnackBar(content: Text('All details saved !')));
+        }
+      }).catchError((e){
+        print(e);
+        Scaffold.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
       });
     }else{
     Scaffold.of(context).showSnackBar(SnackBar(content: Text('Enter all details !')));

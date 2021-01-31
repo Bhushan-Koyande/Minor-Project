@@ -28,7 +28,7 @@ class LabCard extends StatelessWidget {
           ),
         ),
         title: Text(lab.name, style: TextStyle(color: Colors.blue[800]),),
-        subtitle: Text('${lab.type} LAB', style: TextStyle(color: Colors.blueGrey[500]),),
+        subtitle: Text('${lab.type} LAB         LAB ID : ${lab.labId}', style: TextStyle(color: Colors.blueGrey[500]),),
       ),
     );
   }

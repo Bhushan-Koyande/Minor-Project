@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:minor_project/auth.dart';
 import 'package:minor_project/models/lab.dart';
 import 'package:minor_project/pages/login.dart';
+import 'package:minor_project/pages/statistics.dart';
 import 'package:minor_project/widgets/labCard.dart';
 
 class HomePage extends StatefulWidget {
@@ -21,12 +22,29 @@ class _HomePageState extends State<HomePage> {
   var authHandler = Auth();
   FirebaseFirestore firestoreInstance = FirebaseFirestore.instance;
   List<LabCard> labList = List();
+  var notification;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getDeviceLocation();
+  }
+
+  void getNotified() {
+    String name = '';
+    firestoreInstance.collection('USERS').where('Email', isEqualTo: widget.user.email).get()
+        .then((value) {
+      name = value.docs.first.get('Name');
+      firestoreInstance.collection("TESTS").where('Patient Name', isEqualTo: name).get()
+          .then((value) {
+            setState(() {
+              notification = value.docs.first;
+            });
+      });
+    }).catchError((e){
+      print(e);
+    });
   }
 
   void getDeviceLocation() {
@@ -68,7 +86,9 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             UserAccountsDrawerHeader(
-                accountEmail: Text(widget.user.email, style: TextStyle(color: Colors.white70, fontWeight: FontWeight.bold),),
+                accountEmail: Text(widget.user.email,
+                  style: TextStyle(color: Colors.white70, fontSize: 16.0, fontWeight: FontWeight.bold),
+                ),
                 currentAccountPicture: Icon(Icons.account_circle_sharp, size: 80.0, color: Colors.white70,),
             ),
             InkWell(
@@ -83,7 +103,9 @@ class _HomePageState extends State<HomePage> {
                 leading: Icon(Icons.list_sharp),
                 title: Text('Statistics'),
               ),
-              onTap: (){  },
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => StatisticsPage()));
+              },
             ),
             InkWell(
               child: ListTile(
@@ -98,7 +120,22 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      body: ListView(
+      body: notification != null ? showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text("COVID-19 test"),
+        content: Text("You have a test on ${notification["Date"]} ${notification["Time"]} at Lab No.${notification["Lab ID"]}"),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+            child: Text("OK"),
+          ),
+        ],
+      ),
+    ):
+    ListView(
         children: labList,
       ),
     );
