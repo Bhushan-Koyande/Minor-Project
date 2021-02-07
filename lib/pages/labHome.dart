@@ -6,6 +6,7 @@ import 'package:minor_project/pages/appointmentDetail.dart';
 import 'package:minor_project/pages/labCharge.dart';
 import 'package:minor_project/pages/labLogin.dart';
 import 'package:minor_project/pages/labTest.dart';
+import 'package:minor_project/pages/labVaccine.dart';
 
 class LabHomePage extends StatefulWidget {
 
@@ -22,6 +23,7 @@ class _LabHomePageState extends State<LabHomePage> {
 
   FirebaseFirestore firestoreInstance = FirebaseFirestore.instance;
   List<ListTile> appointmentList = new List();
+  bool isEmpty = true;
 
   @override
   void initState() {
@@ -50,6 +52,7 @@ class _LabHomePageState extends State<LabHomePage> {
     ).toList();
     setState(() {
       appointmentList = l;
+      isEmpty = l.isEmpty;
     });
   }
 
@@ -78,11 +81,20 @@ class _LabHomePageState extends State<LabHomePage> {
             ),
             InkWell(
               child: ListTile(
-                leading: Icon(Icons.done_all),
+                leading: Icon(Icons.science_outlined),
                 title: Text('Tests'),
               ),
               onTap: (){
                 Navigator.push(context, MaterialPageRoute(builder: (context) => LabTestsPage(id: widget.id,)));
+              },
+            ),
+            InkWell(
+              child: ListTile(
+                leading: Icon(Icons.done),
+                title: Text('Vaccination'),
+              ),
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => LabVaccinesPage(labName: widget.name,)));
               },
             ),
             InkWell(
@@ -98,7 +110,7 @@ class _LabHomePageState extends State<LabHomePage> {
         ),
       ),
       body: Container(
-        child: appointmentList != null ? ListView(
+        child: isEmpty != true ? ListView(
           children: appointmentList,
         ) :
         Center(

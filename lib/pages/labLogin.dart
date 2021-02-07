@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:minor_project/pages/labHome.dart';
 import 'package:minor_project/pages/login.dart';
 import 'package:minor_project/widgets/textLab.dart';
-import 'package:minor_project/widgets/textLogin.dart';
 import 'package:minor_project/widgets/verticalText.dart';
 
 class LabLoginPage extends StatefulWidget {
@@ -14,12 +13,14 @@ class LabLoginPage extends StatefulWidget {
 class _LabLoginPageState extends State<LabLoginPage> {
 
   String labId = '';
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   FirebaseFirestore instance = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -90,7 +91,7 @@ class _LabLoginPageState extends State<LabLoginPage> {
                             }
                           }).catchError((e){
                             print(e);
-                            Scaffold.of(context).showSnackBar(SnackBar(content: Text('Error !!! try again')));
+                            _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Error !!! try again')));
                           });
                         }
                       },

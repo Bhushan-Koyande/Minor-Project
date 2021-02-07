@@ -33,14 +33,15 @@ class _LabChargesState extends State<LabCharges> {
     firestoreInstance.collection("TESTS").where("Lab Id", isEqualTo: widget.labId).get()
         .then((value) {
       List<Test> tests = value.docs.map((doc) => Test.fromDocument(doc)).toList();
+      print(tests);
       int a = 0, b = 0;
-      tests.map((t) {
-        if(t.result == 'positive'){
-          a += 1;
-        }else if(t.result == 'negative'){
-          b+= 1;
+      for(int i = 0; i < tests.length; i++){
+        if(tests[i].result == 'positive'){
+          a = a + 1;
+        }else if(tests[i].result == 'negative'){
+          b = b + 1;
         }
-      });
+      }
       setState(() {
         positiveCount = a;
         negativeCount = b;

@@ -16,11 +16,13 @@ class _LoginPageState extends State<LoginPage> {
   String email = '';
   String password = '';
 
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   var authHandler = Auth();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -112,7 +114,7 @@ class _LoginPageState extends State<LoginPage> {
                                 builder: (context) => HomePage(user: firebaseUser,)
                             ));
                           }else{
-                            Scaffold.of(context).showSnackBar(SnackBar(content: Text('Error !!! try again')));
+                            _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Error !!! try again')));
                           }
                         }
                       },

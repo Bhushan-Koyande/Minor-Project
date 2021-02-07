@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 
 class BookingPage extends StatefulWidget {
 
+  final String titleText;
   final String labName;
   final String patientEmail;
 
-  BookingPage({this.labName, this.patientEmail});
+  BookingPage({this.labName, this.patientEmail, this.titleText});
 
   @override
   _BookingPageState createState() => _BookingPageState();
@@ -20,6 +21,7 @@ class _BookingPageState extends State<BookingPage> {
   String isComorbid = '';
   String comorbidityDetails = '';
 
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   FirebaseFirestore instance = FirebaseFirestore.instance;
   var userData;
 
@@ -63,34 +65,57 @@ class _BookingPageState extends State<BookingPage> {
           }
         }
       }
-      instance.collection('APPOINTMENTS')
-          .add({
-        'patient name': userData['Name'],
-        'priority': priority,
-        'profession detail': professionDetail,
-        'age detail': ageDetail,
-        'comorbid': isComorbid,
-        'comorbidity detail': comorbidityDetails,
-        'lab name': widget.labName,
-        'status': 'pending'
-      }).then((value){
-        if(value.id != null){
-          Scaffold.of(context).showSnackBar(SnackBar(content: Text('All details saved !')));
-        }
-      }).catchError((e){
-        print(e);
-        Scaffold.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
-      });
+      if(widget.titleText == 'Test'){
+        instance.collection('APPOINTMENTS')
+            .add({
+          'patient name': userData['Name'],
+          'priority': priority,
+          'profession detail': professionDetail,
+          'age detail': ageDetail,
+          'comorbid': isComorbid,
+          'comorbidity detail': comorbidityDetails,
+          'lab name': widget.labName,
+          'status': 'pending'
+        }).then((value){
+          if(value.id != null){
+            _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('All details saved !')));
+          }
+        }).catchError((e){
+          print(e);
+          _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(e.toString())));
+        });
+      }else if(widget.titleText == 'Vaccine'){
+        instance.collection('VACCINE-APPOINTMENTS')
+            .add({
+          'patient name': userData['Name'],
+          'priority': priority,
+          'profession detail': professionDetail,
+          'age detail': ageDetail,
+          'comorbid': isComorbid,
+          'comorbidity detail': comorbidityDetails,
+          'lab name': widget.labName,
+          'status': 'pending'
+        }).then((value){
+          if(value.id != null){
+            _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('All details saved !')));
+          }
+        }).catchError((e){
+          print(e);
+          _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(e.toString())));
+        });
+      }
     }else{
-    Scaffold.of(context).showSnackBar(SnackBar(content: Text('Enter all details !')));
+      _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Enter all details !')));
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('Book Appointment'),
+        title: Text('${widget.titleText} Appointment'),
+        centerTitle: true,
       ),
       body: Container(
         child: ListView(

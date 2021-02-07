@@ -6,6 +6,7 @@ import 'package:minor_project/auth.dart';
 import 'package:minor_project/models/lab.dart';
 import 'package:minor_project/pages/login.dart';
 import 'package:minor_project/pages/statistics.dart';
+import 'package:minor_project/pages/vaccine.dart';
 import 'package:minor_project/widgets/labCard.dart';
 
 class HomePage extends StatefulWidget {
@@ -28,7 +29,32 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    getNotified();
     getDeviceLocation();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      showNotification();
+    });
+  }
+
+  void showNotification(){
+    if(notification != null){
+      showDialog<void>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text("COVID-19 test"),
+          content: Text("You have a test on ${notification["Date"]} ${notification["Time"]} at Lab No.${notification["Lab ID"]}"),
+          actions: <Widget>[
+            FlatButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("OK"),
+            ),
+          ],
+        ),
+      );
+    }
   }
 
   void getNotified() {
@@ -36,8 +62,10 @@ class _HomePageState extends State<HomePage> {
     firestoreInstance.collection('USERS').where('Email', isEqualTo: widget.user.email).get()
         .then((value) {
       name = value.docs.first.get('Name');
+      print('name = $name');
       firestoreInstance.collection("TESTS").where('Patient Name', isEqualTo: name).get()
           .then((value) {
+            print(value.docs);
             setState(() {
               notification = value.docs.first;
             });
@@ -68,7 +96,7 @@ class _HomePageState extends State<HomePage> {
       }
     }
     print(output.length);
-    List<LabCard> l = output.map((val) => LabCard(lab: val, userEmail: widget.user.email,)).toList();
+    List<LabCard> l = output.map((val) => LabCard(lab: val, userEmail: widget.user.email, title: 'Test',)).toList();
     setState(() {
       labList = l;
     });
@@ -90,6 +118,15 @@ class _HomePageState extends State<HomePage> {
                   style: TextStyle(color: Colors.white70, fontSize: 16.0, fontWeight: FontWeight.bold),
                 ),
                 currentAccountPicture: Icon(Icons.account_circle_sharp, size: 80.0, color: Colors.white70,),
+            ),
+            InkWell(
+              child: ListTile(
+                leading: Icon(Icons.done),
+                title: Text('Vaccination'),
+              ),
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => VaccinePage(currentUser: widget.user,)));
+              },
             ),
             InkWell(
               child: ListTile(
@@ -120,22 +157,7 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      body: notification != null ? showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text("COVID-19 test"),
-        content: Text("You have a test on ${notification["Date"]} ${notification["Time"]} at Lab No.${notification["Lab ID"]}"),
-        actions: <Widget>[
-          FlatButton(
-            onPressed: () {
-              Navigator.of(ctx).pop();
-            },
-            child: Text("OK"),
-          ),
-        ],
-      ),
-    ):
-    ListView(
+      body: ListView(
         children: labList,
       ),
     );

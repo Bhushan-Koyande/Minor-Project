@@ -82,23 +82,33 @@ class _AppointmentDetailPageState extends State<AppointmentDetailPage> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.done),
         onPressed: (){
-          instance.collection('TESTS')
-              .add({
-            'Lab ID': widget.labId,
-            'Patient Name': widget.a.patientName,
-            'Appointment ID': widget.a.appointmentId,
-            'Date': allottedDate,
-            'Time': allottedTime,
-            'Result': 'TBC'
-          }).then((value) => {
-            instance.collection('APPOINTMENTS').doc(widget.a.appointmentId).update({"status": "allotted"})
+          if(widget.title == 'Test Appointment'){
+            instance.collection('TESTS')
+                .add({
+              'Lab ID': widget.labId,
+              'Patient Name': widget.a.patientName,
+              'Appointment ID': widget.a.appointmentId,
+              'Date': allottedDate,
+              'Time': allottedTime,
+              'Result': 'TBC'
+            }).then((value) => {
+              instance.collection('APPOINTMENTS').doc(widget.a.appointmentId).update({"status": "allotted"})
+                  .then((value) {
+                print('Test : time allotted');
+                Navigator.pop(context);
+              })
+            }).catchError((e){
+              print(e);
+            });
+          }else if(widget.title == 'Vaccine Appointment'){
+            instance.collection('VACCINE-ALLOTMENTS').doc(widget.a.appointmentId).update({"status": "allotted"})
                 .then((value) {
-                  print('time allotted');
-                  Navigator.pop(context);
-            })
-          }).catchError((e){
-            print(e);
-          });
+              print('Vaccine : time allotted');
+              Navigator.pop(context);
+            }).catchError((e){
+              print(e);
+            });
+          }
         },
       ),
     );

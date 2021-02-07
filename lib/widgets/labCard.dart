@@ -4,9 +4,10 @@ import 'package:minor_project/pages/booking.dart';
 
 class LabCard extends StatelessWidget {
 
+  final String title;
   final userEmail;
   final Lab lab;
-  LabCard({@required this.lab, @required this.userEmail});
+  LabCard({@required this.lab, @required this.userEmail, @required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class LabCard extends StatelessWidget {
             splashColor: Colors.blue[200],
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(
-                  builder: (context) => BookingPage(labName: lab.name, patientEmail: userEmail,)
+                  builder: (context) => BookingPage(labName: lab.name, patientEmail: userEmail, titleText: title,)
               ));
             },
           ),

@@ -20,12 +20,14 @@ class _RegisterPageState extends State<RegisterPage> {
   String address = '';
   String password = '';
 
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   var authHandler = Auth();
   FirebaseFirestore instance = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -255,7 +257,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 });
                                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
                               }else{
-                                Scaffold.of(context).showSnackBar(SnackBar(content: Text('Error !!! try again')));
+                                _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Error !!! try again')));
                               }
                             }
                           },

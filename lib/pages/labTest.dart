@@ -16,6 +16,7 @@ class LabTestsPage extends StatefulWidget {
 class _LabTestsPageState extends State<LabTestsPage> {
 
   FirebaseFirestore instance = FirebaseFirestore.instance;
+  bool isEmpty = true;
   List<ListTile> testList = new List();
 
   @override
@@ -44,6 +45,7 @@ class _LabTestsPageState extends State<LabTestsPage> {
           ).toList();
           setState(() {
             testList = l;
+            isEmpty = l.isEmpty;
           });
         }).catchError((e){
           print(e);
@@ -58,7 +60,7 @@ class _LabTestsPageState extends State<LabTestsPage> {
         centerTitle: true,
       ),
       body: Container(
-        child: testList != null ? ListView(
+        child: isEmpty != true ? ListView(
           children: testList,
         ):
         Center(
