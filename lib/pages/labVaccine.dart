@@ -25,6 +25,7 @@ class _LabVaccinesPageState extends State<LabVaccinesPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    getVaccineAppointments();
   }
 
   void getVaccineAppointments() async {

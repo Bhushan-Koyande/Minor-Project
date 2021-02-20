@@ -30,7 +30,7 @@ class _LabChargesState extends State<LabCharges> {
   }
 
   void getLabStatistics() {
-    firestoreInstance.collection("TESTS").where("Lab Id", isEqualTo: widget.labId).get()
+    firestoreInstance.collection("TESTS").where("Lab ID", isEqualTo: widget.labId).get()
         .then((value) {
       List<Test> tests = value.docs.map((doc) => Test.fromDocument(doc)).toList();
       print(tests);
@@ -57,6 +57,7 @@ class _LabChargesState extends State<LabCharges> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Lab Charges'),
+        centerTitle: true,
       ),
       body: Container(
         child: Center(
@@ -89,21 +90,22 @@ class _LabChargesState extends State<LabCharges> {
                 child: Text('SUBMIT', style: TextStyle(color: Colors.white),),
                 padding: EdgeInsets.all(8.0),
               ),
+              SizedBox(height: 32.0,),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text('LAB TESTS INFO'),
+                child: Text('LAB TESTS INFO', style: TextStyle(fontSize: 21.0, color: Colors.black45),),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text('TOTAL : $testCount'),
+                child: Text('TOTAL : $testCount', style: TextStyle(fontSize: 21.0, color: Colors.black45),),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text('+VE   : $positiveCount'),
+                child: Text('+VE   : $positiveCount', style: TextStyle(fontSize: 21.0, color: Colors.black45),),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text('-VE   : $negativeCount'),
+                child: Text('-VE   : $negativeCount', style: TextStyle(fontSize: 21.0, color: Colors.black45),),
               ),
             ],
           ),

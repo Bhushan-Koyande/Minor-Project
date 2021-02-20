@@ -7,6 +7,7 @@ import 'package:minor_project/models/lab.dart';
 import 'package:minor_project/pages/login.dart';
 import 'package:minor_project/pages/statistics.dart';
 import 'package:minor_project/pages/vaccine.dart';
+import 'package:minor_project/pages/zone.dart';
 import 'package:minor_project/widgets/labCard.dart';
 
 class HomePage extends StatefulWidget {
@@ -133,7 +134,9 @@ class _HomePageState extends State<HomePage> {
                 leading: Icon(Icons.location_on_rounded),
                 title: Text('Containment Zones'),
               ),
-              onTap: (){  },
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ZonesPage()));
+              },
             ),
             InkWell(
               child: ListTile(
@@ -159,6 +162,10 @@ class _HomePageState extends State<HomePage> {
       ),
       body: ListView(
         children: labList,
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){  },
+        child: Icon(Icons.announcement_sharp),
       ),
     );
   }

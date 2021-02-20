@@ -61,6 +61,7 @@ class _LabHomePageState extends State<LabHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Test Appointments'),
+        centerTitle: true,
       ),
       drawer: Drawer(
         child: Column(

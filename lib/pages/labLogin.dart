@@ -48,10 +48,11 @@ class _LabLoginPageState extends State<LabLoginPage> {
                       onChanged: (String val){
                         labId = val;
                       },
+                      obscureText: true,
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         fillColor: Colors.lightBlueAccent,
-                        labelText: 'Enter Lab ID',
+                        labelText: 'Enter Unique ID',
                         labelStyle: TextStyle(
                           color: Colors.white70,
                         ),
