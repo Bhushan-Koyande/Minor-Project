@@ -57,7 +57,7 @@ class _AppointmentDetailPageState extends State<AppointmentDetailPage> {
                 },
                 decoration: InputDecoration(
                   labelText: 'Allot date',
-                  hintText: 'Enter date as DD-MM-YYYY',
+                  hintText: 'Enter date as YYYY-MM-DD',
                   labelStyle: TextStyle(color: Colors.blue[800]),
                   hintStyle: TextStyle(color: Colors.blue[700]),
                 ),
@@ -103,8 +103,12 @@ class _AppointmentDetailPageState extends State<AppointmentDetailPage> {
               print(e);
             });
           }else if(widget.title == 'Vaccine Appointment'){
+            DateTime firstShot = DateTime.parse(allottedDate);
+            DateTime secondShot = firstShot.add(Duration(days: 28));
+            String repeatTime = secondShot.toString().substring(0, 10);
+            print(repeatTime);
             instance.collection('VACCINE-APPOINTMENTS').doc(widget.a.appointmentId)
-                .update({"status": "allotted", "Date": allottedDate, "Time": allottedTime})
+                .update({"status": "allotted", "Date": allottedDate, "Time": allottedTime, "Next": repeatTime})
                 .then((value) {
               print('Vaccine : time allotted');
               Navigator.pop(context);

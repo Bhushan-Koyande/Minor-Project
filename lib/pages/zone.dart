@@ -11,7 +11,7 @@ class ZonesPage extends StatefulWidget {
 
 class _ZonesPageState extends State<ZonesPage> {
 
-  final String apiKey = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtYWlsSWRlbnRpdHkiOiJhbC5pLnNzLmkuYWJ1Yy5rLm4uZXJ0bS5wQGdtYWlsLmNvbSJ9.RwVUVM4QoF91Knbf9fKGSLXq2hhyj3ZULhQKjto1Z30";
+  final String apiKey = "API-KEY";
   final String apiUrl = "https://data.geoiq.io/dataapis/v1.0/covid/nearbyzones";
 
   List <ListTile> zonesList = new List();
