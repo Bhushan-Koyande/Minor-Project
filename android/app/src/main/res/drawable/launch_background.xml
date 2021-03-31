@@ -4,9 +4,15 @@
     <item android:drawable="@android:color/white" />
 
     <!-- You can insert your own image assets here -->
-    <!-- <item>
+    <!--<item>
         <bitmap
             android:gravity="center"
-            android:src="@mipmap/launch_image" />
-    </item> -->
+            android:src="@mipmap/ic_launcher_covid" />
+    </item>
+
+    <item>
+        <bitmap
+            android:gravity="bottom|center_horizontal"
+            android:src="@drawable/launch_title" />
+    </item>-->
 </layer-list>

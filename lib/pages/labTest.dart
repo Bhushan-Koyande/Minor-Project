@@ -17,7 +17,7 @@ class _LabTestsPageState extends State<LabTestsPage> {
 
   FirebaseFirestore instance = FirebaseFirestore.instance;
   bool isEmpty = true;
-  List<ListTile> testList = new List();
+  List<ListTile> testList = [];
 
   @override
   void initState() {

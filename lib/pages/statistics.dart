@@ -16,7 +16,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
   
   var countryData;
   
-  List<StateCard> statsList = new List();
+  List<StateCard> statsList = [];
 
   @override
   void initState() {
@@ -31,7 +31,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
         var response = jsonDecode(value.body);
         var responseData = response['data'];
         countryData = responseData['summary'];
-        List<StateCard> l = new List();
+        List<StateCard> l = [];
         l.add(StateCard(
           name: 'india'.toUpperCase(),
           confirmed: countryData['total'],

@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:minor_project/auth.dart';
+import 'package:minor_project/pages/news.dart';
+import 'package:minor_project/services/auth.dart';
 import 'package:minor_project/models/lab.dart';
 import 'package:minor_project/pages/login.dart';
 import 'package:minor_project/pages/statistics.dart';
@@ -27,10 +28,10 @@ class _HomePageState extends State<HomePage> {
 
   var authHandler = Auth();
   FirebaseFirestore firestoreInstance = FirebaseFirestore.instance;
-  List<LabCard> labList = List();
+  List<LabCard> labList = [];
   var notification;
 
-  final String apiKey = "API-KEY";
+  final String apiKey = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtYWlsSWRlbnRpdHkiOiJhbC5pLnNzLmkuYWJ1Yy5rLm4uZXJ0bS5wQGdtYWlsLmNvbSJ9.RwVUVM4QoF91Knbf9fKGSLXq2hhyj3ZULhQKjto1Z30";
   final String apiUrl = "https://data.geoiq.io/dataapis/v1.0/covid/locationcheck";
 
   var flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
@@ -129,7 +130,7 @@ class _HomePageState extends State<HomePage> {
     QuerySnapshot snapshot = await firestoreInstance.collection('LABS').get();
     List<Lab> labs = snapshot.docs.map((doc) => Lab.fromDocument(doc)).toList();
     print(labs.length);
-    List<Lab> output = new List();
+    List<Lab> output = [];
     for(int i = 0; i < labs.length; i++){
       if(((labs[i].latitude - lat).abs() <= 0.05) && ((labs[i].longitude - long).abs() <= 0.05)){
         output.add(labs[i]);
@@ -204,6 +205,15 @@ class _HomePageState extends State<HomePage> {
               ),
               onTap: (){
                 Navigator.push(context, MaterialPageRoute(builder: (context) => ZonesPage()));
+              },
+            ),
+            InkWell(
+              child: ListTile(
+                leading: Icon(Icons.view_headline_sharp),
+                title: Text('News'),
+              ),
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => NewsPage()));
               },
             ),
             InkWell(

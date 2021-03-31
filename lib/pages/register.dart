@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:minor_project/auth.dart';
+import 'package:minor_project/services/auth.dart';
 import 'package:minor_project/pages/login.dart';
 import 'package:minor_project/widgets/signup.dart';
 import 'package:minor_project/widgets/textNew.dart';

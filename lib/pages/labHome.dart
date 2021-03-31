@@ -22,7 +22,7 @@ class LabHomePage extends StatefulWidget {
 class _LabHomePageState extends State<LabHomePage> {
 
   FirebaseFirestore firestoreInstance = FirebaseFirestore.instance;
-  List<ListTile> appointmentList = new List();
+  List<ListTile> appointmentList = [];
   bool isEmpty = true;
 
   @override

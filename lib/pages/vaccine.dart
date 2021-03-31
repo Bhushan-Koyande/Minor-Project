@@ -17,7 +17,7 @@ class VaccinePage extends StatefulWidget {
 class _VaccinePageState extends State<VaccinePage> {
 
   FirebaseFirestore firestoreInstance = FirebaseFirestore.instance;
-  List<LabCard> vaccineCenters = List();
+  List<LabCard> vaccineCenters = [];
 
   @override
   void initState() {
@@ -40,7 +40,7 @@ class _VaccinePageState extends State<VaccinePage> {
     QuerySnapshot snapshot = await firestoreInstance.collection('LABS').get();
     List<Lab> labs = snapshot.docs.map((doc) => Lab.fromDocument(doc)).toList();
     print(labs.length);
-    List<Lab> output = new List();
+    List<Lab> output = [];
     for(int i = 0; i < labs.length; i++){
       if(labs[i].type == 'GOVT'){
         if(((labs[i].latitude - lat).abs() <= 0.2) && ((labs[i].longitude - long).abs() <= 0.2)){

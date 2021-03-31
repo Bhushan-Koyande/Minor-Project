@@ -17,7 +17,7 @@ class LabVaccinesPage extends StatefulWidget {
 class _LabVaccinesPageState extends State<LabVaccinesPage> {
 
   bool isEmpty = true;
-  List<ListTile> vaccineList = new List();
+  List<ListTile> vaccineList = [];
 
   FirebaseFirestore firestoreInstance = FirebaseFirestore.instance;
 
