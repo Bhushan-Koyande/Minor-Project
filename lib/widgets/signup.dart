@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+//Flutter - version 2.0.3
+//Dart - version 2.12.2
+
 class SignUp extends StatefulWidget {
   @override
   _SignUpState createState() => _SignUpState();

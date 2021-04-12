@@ -5,6 +5,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:minor_project/pages/home.dart';
 import 'package:minor_project/pages/login.dart';
 
+//Flutter - version 2.0.3
+//Dart - version 2.12.2
+
+/*
+DATABASE -
+COVID-19 Testing Centers data obtained from https://www.icmr.gov.in/
+*/
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();

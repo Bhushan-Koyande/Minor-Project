@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+//Flutter - version 2.0.3
+//Dart - version 2.12.2
+
 class Appointment{
 
   final String appointmentId;

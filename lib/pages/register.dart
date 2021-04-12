@@ -5,6 +5,9 @@ import 'package:minor_project/pages/login.dart';
 import 'package:minor_project/widgets/signup.dart';
 import 'package:minor_project/widgets/textNew.dart';
 
+//Flutter - version 2.0.3
+//Dart - version 2.12.2
+
 class RegisterPage extends StatefulWidget {
   @override
   _RegisterPageState createState() => _RegisterPageState();

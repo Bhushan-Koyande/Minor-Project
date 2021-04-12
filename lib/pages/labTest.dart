@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:minor_project/models/test.dart';
 import 'package:minor_project/pages/testDetail.dart';
 
+//Flutter - version 2.0.3
+//Dart - version 2.12.2
+
 class LabTestsPage extends StatefulWidget {
 
   final String id;

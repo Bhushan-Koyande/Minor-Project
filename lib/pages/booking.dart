@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+//Flutter - version 2.0.3
+//Dart - version 2.12.2
+
 class BookingPage extends StatefulWidget {
 
   final String titleText;

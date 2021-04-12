@@ -15,6 +15,9 @@ import 'package:minor_project/pages/zone.dart';
 import 'package:minor_project/widgets/labCard.dart';
 import 'package:http/http.dart' as http;
 
+//Flutter - version 2.0.3
+//Dart - version 2.12.2
+
 class HomePage extends StatefulWidget {
 
   final User user;

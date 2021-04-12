@@ -3,6 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+//Flutter - version 2.0.3
+//Dart - version 2.12.2
+
 class ArticlePage extends StatefulWidget {
 
   final String postUrl;

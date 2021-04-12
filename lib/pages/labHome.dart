@@ -8,6 +8,9 @@ import 'package:minor_project/pages/labLogin.dart';
 import 'package:minor_project/pages/labTest.dart';
 import 'package:minor_project/pages/labVaccine.dart';
 
+//Flutter - version 2.0.3
+//Dart - version 2.12.2
+
 class LabHomePage extends StatefulWidget {
 
   final String id;

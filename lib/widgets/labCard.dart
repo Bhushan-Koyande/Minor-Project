@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:minor_project/models/lab.dart';
 import 'package:minor_project/pages/booking.dart';
 
+//Flutter - version 2.0.3
+//Dart - version 2.12.2
+
 class LabCard extends StatelessWidget {
 
   final String title;

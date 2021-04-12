@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:minor_project/models/appointment.dart';
 import 'package:minor_project/pages/appointmentDetail.dart';
 
+//Flutter - version 2.0.3
+//Dart - version 2.12.2
+
 class LabVaccinesPage extends StatefulWidget {
 
   final String labId;

@@ -3,6 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:minor_project/models/activity.dart';
 
+//Flutter - version 2.0.3
+//Dart - version 2.12.2
+
 class ProfilePage extends StatefulWidget {
 
   final User appUser;

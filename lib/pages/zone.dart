@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 
+//Flutter - version 2.0.3
+//Dart - version 2.12.2
+
 class ZonesPage extends StatefulWidget {
 
   @override
