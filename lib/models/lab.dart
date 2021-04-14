@@ -10,8 +10,9 @@ class Lab {
   final double latitude;
   final double longitude;
   final String type;
+  final String charges;
 
-  Lab({this.labId, this.name, this.latitude, this.longitude, this.type});
+  Lab({this.labId, this.name, this.latitude, this.longitude, this.type, this.charges});
 
   factory Lab.fromDocument(DocumentSnapshot doc){
     return Lab(
@@ -19,7 +20,8 @@ class Lab {
         name: doc['NAME'],
         latitude: doc['LAT'],
         longitude: doc['LONG'],
-        type: doc['TYPE'] ? 'GOVT' : 'PRIVATE'
+        type: doc['TYPE'] ? 'GOVT' : 'PRIVATE',
+        charges: doc.data().containsKey('CHARGES') ? doc['CHARGES'].toString() : 'N/A'
     );
   }
 }
